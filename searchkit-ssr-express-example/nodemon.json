@@ -1,0 +1,12 @@
+{
+    "restartable": "rs",
+    "verbose": true,    
+    "ignore":["src/*"],
+    "watch": [
+      "dist/*.js"   
+    ],
+    "env": {
+      "NODE_ENV": "development"
+    },
+    "ext": "js"
+}
