@@ -2,7 +2,7 @@ export default ({content, appState})=> {
     return (`<html>
         <head>
             <title>Searchkit</title>
-            <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/searchkit/0.10.0/theme.css" />
+            <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/searchkit@2.2.0/release/theme.css" />
             <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             <script type="text/javascript">
                window.__INITIAL_APP_STATE__ = ${JSON.stringify(appState)}
