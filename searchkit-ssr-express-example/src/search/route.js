@@ -19,7 +19,7 @@ searchRouter.get('/', (req, res)=> {
       searchOnLoad:false
     })    
     ReactDOMServer.renderToString(<SearchContainer searchkit={searchkit}/>)
-    searchkit.emitter = new EventEmitter()
+    searchkit.emitter.clear()
     searchkit.searchFromUrlQuery(searchPath)
         .then((searchkitState)=> {
             let appState = {...searchkitState, host}

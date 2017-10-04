@@ -14,8 +14,8 @@
   "dependencies": {
     "express": "^4.16.1",
     "nodemon": "^1.12.1",
-    "react": "^15.6.2",
-    "react-dom": "15.6.2",
+    "react": "^16.0.0",
+    "react-dom": "16.0.0",
     "searchkit": "^2.x.x"
   },
   "devDependencies": {
