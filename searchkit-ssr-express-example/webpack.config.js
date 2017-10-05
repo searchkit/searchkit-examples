@@ -27,14 +27,15 @@ module.exports = {
         ]
     },
     plugins:[
-        new webpack.IgnorePlugin(/vertx/),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify('development')
             }
         })
     ],
-
+    externals:{
+        "express":"commonjs express"
+    },
     resolve:{
         alias:{
             react:path.resolve("./node_modules/react"),
