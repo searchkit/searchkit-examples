@@ -8,6 +8,8 @@ import { SearchkitManager,SearchkitProvider,
   Layout, TopBar, LayoutBody, LayoutResults, Hits, Utils,
   ActionBar, ActionBarRow, SideBar, ViewSwitcherConfig } from 'searchkit'
 
+import "./search.css"
+
 export const MovieHitsListItem = ({bemBlocks, result})=> {  
   let url = "http://www.imdb.com/title/" + result._source.imdbId
   const source = Object.assign({}, result._source, result.highlight)

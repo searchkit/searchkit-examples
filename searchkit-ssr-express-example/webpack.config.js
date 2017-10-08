@@ -1,5 +1,6 @@
 let path = require("path")
 let webpack = require("webpack")
+let ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
     entry:  {
@@ -12,7 +13,7 @@ module.exports = {
     },
     target:'node',
     module: {
-        loaders: [
+        rules: [
             {
                 test:    /\.jsx?$/,
                 exclude: /node_modules/,
@@ -23,6 +24,15 @@ module.exports = {
                 query:   {
                     presets: ['react', 'stage-0']
                 }
+            },
+            {
+                test: /\.css$/,
+                use: ExtractTextPlugin.extract({
+                    use: "css-loader"
+                }),
+                include: [
+                    path.resolve(__dirname, "src")
+                ]            
             }
         ]
     },
@@ -31,7 +41,8 @@ module.exports = {
             'process.env': {
                 NODE_ENV: JSON.stringify('development')
             }
-        })
+        }),
+        new ExtractTextPlugin("search-styles.css")
     ],
     externals:{
         "express":"commonjs express"
