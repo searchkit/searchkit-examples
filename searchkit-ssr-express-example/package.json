@@ -15,7 +15,7 @@
     "express": "^4.16.1",
     "react": "^16.0.0",
     "react-dom": "16.0.0",
-    "searchkit": "2.3.0-0"
+    "searchkit": "^2.3.0-3"
   },
   "devDependencies": {
     "babel-loader": "^7.1.2",
