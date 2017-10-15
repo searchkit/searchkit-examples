@@ -1,8 +1,10 @@
 import * as React from "react"
 import {SearchkitComponent, Panel, renderComponent} from "searchkit"
 import {RefinementSuggestAccessor} from "./RefinementSuggestAccessor"
-import Select from 'react-select'
-import 'react-select/dist/react-select.css';
+
+import { ReactAutosuggestAdapter} from "./adapters/react-autosuggest"
+import { ReactSelectAdapter} from "./adapters/react-select"
+
 const map = require("lodash/map")
 const flatten = require("lodash/flatten")
 const compact = require("lodash/compact")
@@ -15,6 +17,7 @@ export class RefinementSuggest extends SearchkitComponent{
 
     static defaultProps = {
         containerComponent:Panel,
+        autosuggestComponent: ReactSelectAdapter,
         multi:true
     }
 
@@ -37,18 +40,19 @@ export class RefinementSuggest extends SearchkitComponent{
                 label: `${item.key} ${item.doc_count}`
             }
         })       
-        return {options}
+        return options
     }
 
-    select = (val)=> {   
-        val = compact(flatten([val]))
-        let values = map(val, "value")
+    select = (values)=> {           
         this.accessor.state = this.accessor.state.setValue(values)
         this.searchkit.performSearch()
     }
 
     render(){    
-        let {containerComponent, id, title} = this.props
+        let { 
+            containerComponent, autosuggestComponent, 
+            id, title, multi
+        } = this.props
         let selectedValues = this.accessor.state.getValue()
         let options = selectedValues.map((value) => {
             return { value, label: value }
@@ -56,17 +60,18 @@ export class RefinementSuggest extends SearchkitComponent{
         if(!this.props.multi){
             options = options[0]
         }
+
+
         return renderComponent(containerComponent, {
             title,
             className: id ? `filter--${id}` : undefined
         }, (
-            <Select.Async 
-                multi={this.props.multi}
-                autoload={true}
-                value={options}
-                valueRenderer={(v) => v.value}                
-                onChange={this.select}
-                loadOptions={this.search} />        
+            renderComponent(autosuggestComponent, {
+                multi,
+                loadOptions:this.search,
+                onSelect:this.select,
+                selectedValues
+            })         
         ))
     }
 }
