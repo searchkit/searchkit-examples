@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "react": "^16.0.0",
+    "react-autocomplete": "^1.7.2",
     "react-dom": "^16.0.0",
     "searchkit": "^2.3.0-3"
   },

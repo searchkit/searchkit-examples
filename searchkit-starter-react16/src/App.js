@@ -10,6 +10,8 @@ import { SearchkitManager,SearchkitProvider,
   ActionBar, ActionBarRow, SideBar } from 'searchkit'
 import './index.css'
 
+import {RefinementSuggest} from "./components/RefinementFilterSuggest/RefinementSuggest"
+
 const host = "http://demo.searchkit.co/api/movies"
 const searchkit = new SearchkitManager(host)
 
@@ -58,6 +60,7 @@ class App extends Component {
         <LayoutBody>
 
           <SideBar>
+            <RefinementSuggest id="test" field="actors.raw"/>
             <HierarchicalMenuFilter fields={["type.raw", "genres.raw"]} title="Categories" id="categories"/>
             <DynamicRangeFilter field="metaScore" id="metascore" title="Metascore" rangeFormatter={(count)=> count + "*"}/>
             <RangeFilter min={0} max={10} field="imdbRating" id="imdbRating" title="IMDB Rating" showHistogram={true}/>
