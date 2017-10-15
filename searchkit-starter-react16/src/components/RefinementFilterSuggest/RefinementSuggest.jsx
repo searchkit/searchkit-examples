@@ -1,45 +1,65 @@
 import * as React from "react"
-import {SearchkitComponent} from "searchkit"
+import {SearchkitComponent, Panel, renderComponent} from "searchkit"
 import {RefinementSuggestAccessor} from "./RefinementSuggestAccessor"
-import Autocomplete from "react-autocomplete"
+import Select from 'react-select'
+import 'react-select/dist/react-select.css';
+const map = require("lodash/map")
 
 export class RefinementSuggest extends SearchkitComponent{
 
     constructor(props){
-        super(props)
-        this.state = {
-            value:""
-        }
+        super(props) 
+    }
+
+    static defaultProps = {
+        containerComponent:Panel
     }
 
     defineAccessor(){
-        let {id, field} = this.props
+        let {id, field, title, operator} = this.props
         return new RefinementSuggestAccessor(id, {
-            id, field
+            id, field, title, operator
         })
     }
 
-    render(){
-        return (
-            <Autocomplete
-                getItemValue={(item) => item.label}
-                items={[
-                    { label: 'apple' },
-                    { label: 'banana' },
-                    { label: 'pear' }
-                ]}
-                renderItem={(item, isHighlighted) =>
-                    <div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
-                        {item.label}
-                    </div>
-                }
-                value={this.state.value}
-                onChange={(e) => {
-                    this.setState({value:e.target.value})
-                    this.accessor.search(e.target.value)
-                }}
-                onSelect={(value) => this.setState({ value})}
-            />
-        )
+    search = async (query)=> {       
+        if(!query){
+            return []
+        }
+        
+        let options = await this.accessor.search(query)    
+        options = options.map((item)=> {
+            return {
+                value: item.key, 
+                label: `${item.key} ${item.doc_count}`
+            }
+        })       
+        return {options}
+    }
+
+    select = (val)=> {
+        let values = map(val, "value")
+        this.accessor.state = this.accessor.state.setValue(values)
+        this.searchkit.performSearch()
+    }
+
+    render(){    
+        let {containerComponent, id, title} = this.props
+        let selectedValues = this.accessor.state.getValue()
+        let options = selectedValues.map((value) => {
+            return { value, label: value }
+        })      
+        return renderComponent(containerComponent, {
+            title,
+            className: id ? `filter--${id}` : undefined
+        }, (
+            <Select.Async 
+                multi={true}
+                autoload={true}
+                value={options}
+                valueRenderer={(v) => v.value}                
+                onChange={this.select}
+                loadOptions={this.search} />        
+        ))
     }
 }
