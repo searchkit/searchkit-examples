@@ -61,7 +61,7 @@ class App extends Component {
 
           <SideBar>
             <RefinementSuggest operator="OR" title="Countries" id="countriesSuggest" field="countries.raw"/>
-            <RefinementSuggest operator="AND" title="Actors" id="actorsSuggest" field="actors.raw"/>
+            <RefinementSuggest operator="AND" title="Actors" multi={false} id="actorsSuggest" field="actors.raw"/>
             <HierarchicalMenuFilter fields={["type.raw", "genres.raw"]} title="Categories" id="categories"/>
             <DynamicRangeFilter field="metaScore" id="metascore" title="Metascore" rangeFormatter={(count)=> count + "*"}/>
             <RangeFilter min={0} max={10} field="imdbRating" id="imdbRating" title="IMDB Rating" showHistogram={true}/>

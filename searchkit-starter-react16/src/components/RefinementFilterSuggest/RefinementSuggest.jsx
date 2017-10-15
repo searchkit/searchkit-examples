@@ -4,6 +4,8 @@ import {RefinementSuggestAccessor} from "./RefinementSuggestAccessor"
 import Select from 'react-select'
 import 'react-select/dist/react-select.css';
 const map = require("lodash/map")
+const flatten = require("lodash/flatten")
+const compact = require("lodash/compact")
 
 export class RefinementSuggest extends SearchkitComponent{
 
@@ -12,7 +14,8 @@ export class RefinementSuggest extends SearchkitComponent{
     }
 
     static defaultProps = {
-        containerComponent:Panel
+        containerComponent:Panel,
+        multi:true
     }
 
     defineAccessor(){
@@ -37,7 +40,8 @@ export class RefinementSuggest extends SearchkitComponent{
         return {options}
     }
 
-    select = (val)=> {
+    select = (val)=> {   
+        val = compact(flatten([val]))
         let values = map(val, "value")
         this.accessor.state = this.accessor.state.setValue(values)
         this.searchkit.performSearch()
@@ -49,12 +53,15 @@ export class RefinementSuggest extends SearchkitComponent{
         let options = selectedValues.map((value) => {
             return { value, label: value }
         })      
+        if(!this.props.multi){
+            options = options[0]
+        }
         return renderComponent(containerComponent, {
             title,
             className: id ? `filter--${id}` : undefined
         }, (
             <Select.Async 
-                multi={true}
+                multi={this.props.multi}
                 autoload={true}
                 value={options}
                 valueRenderer={(v) => v.value}                
