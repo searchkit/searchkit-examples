@@ -60,7 +60,7 @@ class App extends Component {
         <LayoutBody>
 
           <SideBar>
-            <RefinementSuggest operator="OR" title="Countries" id="countriesSuggest" field="countries.raw"/>
+            <RefinementSuggest multi={true} operator="OR" title="Countries" id="countriesSuggest" field="countries.raw"/>
             <RefinementSuggest operator="OR" title="Countries" id="countriesSuggest" field="countries.raw" autosuggestComponent={ReactAutosuggestAdapter}/>
             <HierarchicalMenuFilter fields={["type.raw", "genres.raw"]} title="Categories" id="categories"/>
             <DynamicRangeFilter field="metaScore" id="metascore" title="Metascore" rangeFormatter={(count)=> count + "*"}/>
