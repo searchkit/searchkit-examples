@@ -55,7 +55,7 @@ export class SearchkitAutosuggest extends SearchkitComponent {
         }
         return (
             <div className="sk-search-box">
-                <div class="sk-search-box__icon"></div>
+                <div className="sk-search-box__icon"></div>
                 <input {...props} />
                 {this.state.loading && (
                     <div data-qa="loader" 
