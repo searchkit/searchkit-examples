@@ -1,0 +1,16 @@
+.react-autosuggest__suggestion {
+    padding:5px 10px;
+}
+
+.react-autosuggest__suggestions-container--open {
+    font-size:14px;
+    top:40px;
+}
+
+.react-autosuggest__suggestions-container--open {
+    left:0px;
+}
+
+.react-autosuggest__container {
+    width:100%
+}

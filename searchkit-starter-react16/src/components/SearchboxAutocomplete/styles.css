@@ -1,0 +1,40 @@
+.search-autosuggest {
+  display: flex;
+  flex: 1;
+}
+
+.search-autosuggest .react-autosuggest__container {
+  display: flex;
+  flex: 1;
+}
+
+.search-autosuggest input {
+  flex: 1;
+}
+
+@media screen and (max-width: 700px) {
+
+  .react-autosuggest__suggestions-container--open {
+    position:fixed;
+    top: 50px;
+    bottom: 0;
+    z-index: 10000;
+    left:0;
+    right:0;
+    background: white;
+  }
+
+}
+
+@media screen and (min-width: 701px) {
+
+  .react-autosuggest__suggestions-container--open {
+    z-index: 10000;
+    background: white;
+    position: absolute;
+    top: 50px;
+    left: 15px;
+    right: 15px;
+  }
+
+}

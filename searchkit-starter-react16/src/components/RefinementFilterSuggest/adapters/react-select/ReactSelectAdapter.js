@@ -28,7 +28,8 @@ export class ReactSelectAdapter extends React.Component {
         return (
             <Select.Async 
                 multi={multi}
-                autoload={true}
+                autoload={false}
+                cache={false}
                 value={selectedValues}
                 valueRenderer={(v) => v.value}                
                 onChange={this.onSelect}

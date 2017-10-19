@@ -1,20 +1,32 @@
 import React, { Component } from 'react'
 import { extend } from 'lodash'
 import { SearchkitManager,SearchkitProvider,
-  SearchBox, RefinementListFilter, Pagination,
+  RefinementListFilter, Pagination,
   HierarchicalMenuFilter, HitsStats, SortingSelector, NoHits,
   ResetFilters, RangeFilter, NumericRefinementListFilter,
   ViewSwitcherHits, ViewSwitcherToggle, DynamicRangeFilter,
   InputFilter, GroupedSelectedFilters,
-  Layout, TopBar, LayoutBody, LayoutResults,
+  Layout, TopBar, LayoutBody, LayoutResults, SearchBox,
+  FacetAccessor, FilteredQuery, TermQuery, BoolMust,
   ActionBar, ActionBarRow, SideBar } from 'searchkit'
 import './index.css'
 
+import { SearchBoxAutoComplete } from "./components/SearchboxAutocomplete/SearchboxAutocomplete"
 import { RefinementSuggest } from "./components/RefinementFilterSuggest/RefinementSuggest"
 import { ReactAutosuggestAdapter } from "./components/RefinementFilterSuggest/adapters/react-autosuggest"
+import { SearchkitAutosuggest } from "./components/SearchkitAutosuggest/SearchkitAutosuggest"
+import { 
+  FacetFilterDatasource, QuickHitsDatasource 
+} from "./components/SearchkitAutosuggest/datasources"
 const host = "http://demo.searchkit.co/api/movies"
+// const host = "http://localhost:9200/movies"
 const searchkit = new SearchkitManager(host)
 
+// searchkit.addDefaultQuery((query)=> {
+//   return query.addQuery(
+//     TermQuery("countries.raw", "UK")    
+//   )
+// })
 const MovieHitsGridItem = (props)=> {
   const {bemBlocks, result} = props
   let url = "http://www.imdb.com/title/" + result._source.imdbId
@@ -54,7 +66,13 @@ class App extends Component {
         <Layout>
           <TopBar>
             <div className="my-logo">Searchkit Acme co</div>
-            <SearchBox autofocus={true} searchOnChange={true} prefixQueryFields={["actors^1","type^2","languages","title^10"]}/>
+            {/* <SearchBox autofocus={true} autoCompleteField="suggest" searchOnChange={false}        prefixQueryFields={["actors^1","type^2","languages","title^10"]}/> */}
+            <SearchkitAutosuggest sources={[
+              new QuickHitsDatasource({title:"Suggestions"}),
+              new FacetFilterDatasource({accessorId:"countries"}),
+              new FacetFilterDatasource({accessorId:"actors"}),
+              new FacetFilterDatasource({id:"genres", field:"genres.raw", title:"Genres"})
+            ]}/>
           </TopBar>
 
         <LayoutBody>

@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "enzyme": "^3.1.0",
+    "enzyme-adapter-react-16": "^1.0.2",
+    "js-beautify": "^1.7.4",
+    "raf": "^3.4.0",
     "react-scripts": "^1.0.14"
   },
   "dependencies": {

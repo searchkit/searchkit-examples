@@ -19,15 +19,20 @@ export class RefinementSuggest extends SearchkitComponent{
         })
     }
 
-    search = async (query)=> {               
-        let options = await this.accessor.search(query)    
-        options = options.map((item)=> {
-            return {
-                value: item.key, 
-                label: `${item.key} ${item.doc_count}`
-            }
-        })       
-        return options
+    search = async (query)=> {         
+        try {
+            let options = await this.accessor.search(query)
+            options = options.map((item) => {
+                return {
+                    value: item.key,
+                    label: `${item.key} ${item.doc_count}`
+                }
+            })
+            return options
+        } catch(e){
+            console.log(e)
+        }
+        
     }
 
     select = (values)=> {           
