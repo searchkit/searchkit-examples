@@ -4,6 +4,7 @@ import Autosuggest from "react-autosuggest"
 import {DatasourceManager} from "./DatasourceManager"
 import "./styles.css"
 
+const trim = require("lodash/trim")
 const each = require("lodash/each")
 const prop = require("lodash/property")
 
@@ -69,6 +70,7 @@ export class SearchkitAutosuggest extends SearchkitComponent {
     // Autosuggest will call this function every time you need to update suggestions.
     // You already implemented this logic above, so just use it.
     onSuggestionsFetchRequested = async ({ value }) => {
+        value = trim(value)
         if(value.length >= 1) {
             this.setState({
                 isLoading: true
