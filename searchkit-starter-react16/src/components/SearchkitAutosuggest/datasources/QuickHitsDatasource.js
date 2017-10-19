@@ -16,7 +16,7 @@ export class QuickHitsDatasource {
 
     search(query, queryString){
 
-        return query.addQuery(MultiMatchQuery(queryString, {
+        return query.addFilter(MultiMatchQuery(queryString, {
             type:"phrase_prefix",
             fields:["title"]
         })).setSize(3).setSource(["title", "imdbId"])
