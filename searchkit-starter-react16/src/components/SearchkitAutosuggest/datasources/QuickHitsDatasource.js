@@ -1,4 +1,4 @@
-import { MultiMatchQuery} from "searchkit"
+import { MultiMatchQuery, TopHitsMetric, FilterBucket} from "searchkit"
 const map = require("lodash/map")
 const get = require("lodash/get")
 
@@ -15,15 +15,26 @@ export class QuickHitsDatasource {
     }
 
     search(query, queryString){
-
-        return query.addFilter(MultiMatchQuery(queryString, {
-            type:"phrase_prefix",
-            fields:["title"]
-        })).setSize(3).setSource(["title", "imdbId"])
+        return query.setAggs(
+            FilterBucket(
+                this.options.id, MultiMatchQuery(queryString,{
+                    type:"phrase_prefix",
+                    fields:["title"]
+                }), 
+                TopHitsMetric('tophits', {
+                    size:3, 
+                    _source:['title', 'imdbId']
+                })            
+            )
+        )
     }
 
     getGroupedResult(results){
-        let items = map(get(results, "hits.hits", []), (item)=> {
+        let path = [
+            'aggregations',
+            this.options.id, 'tophits', 'hits', 'hits'
+        ]
+        let items = map(get(results, path, []), (item)=> {
             return {
                 key:item._source.title,
                 select(){

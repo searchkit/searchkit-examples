@@ -68,7 +68,7 @@ class App extends Component {
             <div className="my-logo">Searchkit Acme co</div>
             {/* <SearchBox autofocus={true} autoCompleteField="suggest" searchOnChange={false}        prefixQueryFields={["actors^1","type^2","languages","title^10"]}/> */}
             <SearchkitAutosuggest sources={[
-              new QuickHitsDatasource({title:"Suggestions"}),
+              new QuickHitsDatasource({id:"quickhits", title:"Suggestions"}),
               new FacetFilterDatasource({accessorId:"countries"}),
               new FacetFilterDatasource({accessorId:"actors"}),
               new FacetFilterDatasource({id:"genres", field:"genres.raw", title:"Genres"})
