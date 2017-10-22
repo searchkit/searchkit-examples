@@ -9,8 +9,9 @@ const each = require("lodash/each")
 const prop = require("lodash/property")
 
 function renderSuggestion(suggestion) {
+  console.log(suggestion)
     return (
-        <span>{suggestion.key} {suggestion.doc_count}</span>
+        <span>{suggestion.key} { suggestion.doc_count && <i>({suggestion.doc_count})</i> }</span>
     );
 }
 
@@ -30,14 +31,15 @@ export class SearchkitAutosuggest extends SearchkitComponent {
         this.state = {
             value: '',
             isLoading:false,
-            suggestions: []
+            suggestions: [],
+            onFocus: false
         };
 
     }
 
     componentDidMount(){
         this.datasourceManager = new DatasourceManager(
-            this.searchkit, this.props.sources)        
+            this.searchkit, this.props.sources)
     }
 
     onChange = (event, { newValue, method }) => {
@@ -46,7 +48,7 @@ export class SearchkitAutosuggest extends SearchkitComponent {
                 value: newValue
             });
         }
-        
+
     };
 
     renderInputComponent=(inputProps)=> {
@@ -59,7 +61,7 @@ export class SearchkitAutosuggest extends SearchkitComponent {
                 <div className="sk-search-box__icon"></div>
                 <input {...props} />
                 {this.state.loading && (
-                    <div data-qa="loader" 
+                    <div data-qa="loader"
                         class="sk-search-box__loader sk-spinning-loader is-hidden"></div>
                 )}
             </div>
@@ -76,11 +78,11 @@ export class SearchkitAutosuggest extends SearchkitComponent {
                 isLoading: true
             })
             let suggestions = await this.datasourceManager.search(value)
-            this.setState({ suggestions, isLoading: false })                
+            this.setState({ suggestions, isLoading: false })
         } else {
             this.setState({suggestions:[]})
         }
-        
+
     };
 
     onSuggestionSelected = (e, {suggestion})=> {
@@ -96,6 +98,7 @@ export class SearchkitAutosuggest extends SearchkitComponent {
             suggestions: []
         });
     };
+
     render(){
         const { value, suggestions } = this.state;
 
@@ -104,7 +107,7 @@ export class SearchkitAutosuggest extends SearchkitComponent {
             placeholder: 'search',
             value,
             onChange: this.onChange
-        };        
+        };
 
         return (
             <Autosuggest
