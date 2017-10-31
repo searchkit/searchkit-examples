@@ -78,7 +78,9 @@ export class SearchkitAutosuggest extends SearchkitComponent {
                 isLoading: true
             })
             let suggestions = await this.datasourceManager.search(value)
-            this.setState({ suggestions, isLoading: false })
+            if(value === this.state.value){
+                this.setState({ suggestions, isLoading: false })
+            }
         } else {
             this.setState({suggestions:[]})
         }

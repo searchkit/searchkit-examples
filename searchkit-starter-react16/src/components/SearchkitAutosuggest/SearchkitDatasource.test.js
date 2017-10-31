@@ -12,6 +12,9 @@ describe("SearchkitDatasource tests", ()=> {
     it("creates the correct query", async ()=> {
         let searchkit = new SearchkitManager("http://demo.searchkit.co/api/movies")
         let searchkitDatasource = new SearchkitDatasource(searchkit.transport)
+        let queryAccessor = new QueryAccessor("q", {
+            id:"q"
+        })
         let actors = new FacetAccessor("actors", {
             field:"actors.raw",
             id:"actors" ,

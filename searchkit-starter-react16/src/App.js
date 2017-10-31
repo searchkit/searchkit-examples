@@ -24,7 +24,10 @@ const searchkit = new SearchkitManager(host)
 
 // searchkit.addDefaultQuery((query)=> {
 //   return query.addQuery(
-//     TermQuery("countries.raw", "UK")    
+//     BoolMust([
+//       TermQuery("type", "news"),
+//       TermQuery("language", "en"),
+//     ])
 //   )
 // })
 const MovieHitsGridItem = (props)=> {
