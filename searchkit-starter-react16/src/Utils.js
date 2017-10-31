@@ -14,7 +14,7 @@ export class Utils {
         }).join("")
         query = `${query}.*`
         if(queryString.length > 2){
-            query = `([a-zA-Z]+ )?${query}`
+            query = `([a-zA-Z]+ )+?${query}`
         }
         return query
     }
