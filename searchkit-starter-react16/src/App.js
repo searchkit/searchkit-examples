@@ -10,9 +10,7 @@ import { SearchkitManager,SearchkitProvider,
   ActionBar, ActionBarRow, SideBar } from 'searchkit'
 import './index.css'
 
-import { RefinementSuggest } from "./components/RefinementFilterSuggest/RefinementSuggest"
-import { ReactAutosuggestAdapter } from "./components/RefinementFilterSuggest/adapters/react-autosuggest"
-
+import { RefinementAutosuggest } from "@searchkit/refinement-autosuggest"
 import { SearchkitAutosuggest, FacetFilterDatasource, SuggestQuerySource } from "@searchkit/autosuggest"
 
 
@@ -77,8 +75,8 @@ class App extends Component {
         <LayoutBody>
 
           <SideBar>
-            <RefinementSuggest multi={true} operator="OR" title="Countries" id="countriesSuggest" field="countries.raw"/>
-            <RefinementSuggest operator="OR" title="Countries" id="countriesSuggest" field="countries.raw" autosuggestComponent={ReactAutosuggestAdapter}/>
+            <RefinementAutosuggest multi={true} operator="OR" title="Countries" id="countriesSuggest" field="countries.raw"/>
+            <RefinementAutosuggest operator="OR" title="Countries" id="countriesSuggest" field="countries.raw"/>
             <HierarchicalMenuFilter fields={["type.raw", "genres.raw"]} title="Categories" id="categories"/>
             <DynamicRangeFilter field="metaScore" id="metascore" title="Metascore" rangeFormatter={(count)=> count + "*"}/>
             <RangeFilter min={0} max={10} field="imdbRating" id="imdbRating" title="IMDB Rating" showHistogram={true}/>
