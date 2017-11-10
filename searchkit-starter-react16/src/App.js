@@ -5,13 +5,17 @@ import { SearchkitManager,SearchkitProvider,
   HierarchicalMenuFilter, HitsStats, SortingSelector, NoHits,
   ResetFilters, RangeFilter, NumericRefinementListFilter,
   ViewSwitcherHits, ViewSwitcherToggle, DynamicRangeFilter,
-  InputFilter, GroupedSelectedFilters,
+  InputFilter, GroupedSelectedFilters, QueryAccessor,
   Layout, TopBar, LayoutBody, LayoutResults,
   ActionBar, ActionBarRow, SideBar } from 'searchkit'
 import './index.css'
 
 import { RefinementSuggest } from "./components/RefinementFilterSuggest/RefinementSuggest"
 import { ReactAutosuggestAdapter } from "./components/RefinementFilterSuggest/adapters/react-autosuggest"
+
+import { SearchkitAutosuggest, FacetFilterDatasource, SuggestQuerySource } from "@searchkit/autosuggest"
+
+
 const host = "http://demo.searchkit.co/api/movies"
 const searchkit = new SearchkitManager(host)
 
@@ -54,7 +58,20 @@ class App extends Component {
         <Layout>
           <TopBar>
             <div className="my-logo">Searchkit Acme co</div>
-            <SearchBox autofocus={true} searchOnChange={true} prefixQueryFields={["actors^1","type^2","languages","title^10"]}/>
+            {/*<SearchBox autofocus={true} searchOnChange={true} prefixQueryFields={["actors^1","type^2","languages","title^10"]}/>*/}
+            <SearchkitAutosuggest
+                autofocus={true}
+                queryHandler={
+                  new QueryAccessor("q", {
+                    fields:["title"]
+                  })
+                }
+                sources={[
+                  new SuggestQuerySource(),
+                  new FacetFilterDatasource({accessorId:"countriesSuggest"}),
+                  new FacetFilterDatasource({ accessorId:"actors"})
+                ]}
+            />
           </TopBar>
 
         <LayoutBody>
